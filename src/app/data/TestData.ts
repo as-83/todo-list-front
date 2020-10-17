@@ -4,6 +4,7 @@ import { Task } from '../model/Task';
 
 export class TestData{
   static categories: Category[] = [
+    {id: 11, title: 'Все категории'},
     {id: 1, title: 'Работа'},
     {id: 2, title: 'Семья'},
     {id: 3, title: 'Учеба'},
@@ -29,7 +30,7 @@ export class TestData{
       title: 'купить бензин',
       priority: TestData.priorities[2],
       completed: false,
-      category: TestData.categories[9],
+      category: TestData.categories[10],
       date: new Date('2020-10-16'),
     },
     {
@@ -37,7 +38,7 @@ export class TestData{
       title: 'купить дом',
       priority: TestData.priorities[2],
       completed: false,
-      category: TestData.categories[1],
+      category: TestData.categories[2],
       date: new Date('2020-10-16'),
     },
     {
@@ -45,7 +46,7 @@ export class TestData{
       title: 'купить авто',
       priority: TestData.priorities[2],
       completed: false,
-      category: TestData.categories[9],
+      category: TestData.categories[10],
       date: new Date('2020-10-16'),
     },
 
