@@ -1,7 +1,7 @@
 import {Priority} from './Priority';
 import {Category} from './Category';
 
-export class Task{
+export class Task {
   id: number;
   title: string;
   completed: boolean;

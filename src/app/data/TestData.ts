@@ -1,8 +1,8 @@
 import {Category} from '../model/Category';
 import {Priority} from '../model/Priority';
-import { Task } from '../model/Task';
+import {Task} from '../model/Task';
 
-export class TestData{
+export class TestData {
   static categories: Category[] = [
     {id: 11, title: 'Все категории'},
     {id: 1, title: 'Работа'},
@@ -15,16 +15,16 @@ export class TestData{
     {id: 8, title: 'Гаджеты'},
     {id: 9, title: 'Здоровье'},
     {id: 10, title: 'Автомобиль'},
-    ];
+  ];
 
   static priorities: Priority[] = [
     {id: 1, title: 'Низкий', color: '#e5e5e5'},
     {id: 2, title: 'Средний', color: '#85d1b2'},
     {id: 3, title: 'Высокий', color: '#F1828D'},
     {id: 4, title: 'Очень срочно!!!', color: '#F1128D'},
-   ];
+  ];
 
-  static  tasks: Task[] = [
+  static tasks: Task[] = [
     {
       id: 1,
       title: 'купить бензин',
