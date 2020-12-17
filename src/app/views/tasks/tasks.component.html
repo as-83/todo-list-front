@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-lg-12 col-md-12">
     <div class="card">
       <div class="card-header card-header-warning">
@@ -17,7 +16,7 @@
           <th>Дата</th>
           </thead>
           <tbody>
-          <tr *ngFor="let task of tasks; let i = index ">
+          <tr class="pointer"  *ngFor="let task of viewTasks; let i = index ">
             <td>{{i + 1}}</td>
             <td>{{task.title}}</td>
             <td>{{task.category.title}}</td>
@@ -29,8 +28,8 @@
                          [class.checked]="task.completed"
                   >
                   <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
+                    <span class="check"></span>
+                  </span>
                 </label>
               </div>
             </td>
