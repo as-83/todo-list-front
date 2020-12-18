@@ -55,6 +55,5 @@ export class DataHandlerService{
         map(response => response)
       );
     }
-    this.tasksSubject.next(tasks);
   }
 }
