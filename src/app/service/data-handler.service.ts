@@ -55,7 +55,6 @@ export class DataHandlerService{
         map(response => response)
       );
     }
-    console.log(category);
+    this.tasksSubject.next(tasks);
   }
-
 }
