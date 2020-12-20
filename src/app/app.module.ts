@@ -7,12 +7,14 @@ import {AppComponent} from './app.component';
 import {CategoriesComponent} from './views/categories/categories.component';
 import {TasksComponent} from './views/tasks/tasks.component';
 import {DataHandlerService} from './service/data-handler.service';
+import { AddTaskComponent } from './views/add-task/add-task.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoriesComponent,
-    TasksComponent
+    TasksComponent,
+    AddTaskComponent
   ],
   imports: [
     BrowserModule,

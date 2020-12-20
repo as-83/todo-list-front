@@ -1,10 +1,10 @@
 import {Injectable, OnInit} from '@angular/core';
 import {Category} from '../model/Category';
-import {TestData} from '../data/TestData';
 import {Task} from '../model/Task';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {map, tap} from 'rxjs/operators';
+import {Priority} from '../model/Priority';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +13,14 @@ export class DataHandlerService{
 
   private tasksUrl = 'http://localhost:8080/todo-list/tasks';
   private categUrl = 'http://localhost:8080/todo-list/categories';
+  private prioritiesUrl = 'http://localhost:8080/todo-list/priorities';
 
   tasksSubject = new BehaviorSubject<Task[]>([]);
   categoriesSubject = new BehaviorSubject<Category[]>([]);
+  prioritiesSubject = new BehaviorSubject<Priority[]>([]);
   tasks$: Observable<Task[]> = this.tasksSubject.asObservable();
   categories$: Observable<Category[]> = this.categoriesSubject.asObservable();
+  priorities$: Observable<Priority[]> = this.prioritiesSubject.asObservable();
   private currentCategSource = new BehaviorSubject<Category>(new Category(11, 'Все Категории'));
   clickedCategory$ = this.currentCategSource.asObservable();
   allTasks: Task[] = [];
@@ -25,8 +28,9 @@ export class DataHandlerService{
   constructor(private httpClient: HttpClient) {
     this.loadCategories();
     this.loadTasks();
+    this.loadPriorities();
     this.tasks$.subscribe(data => this.allTasks = data );
-    console.log(this.allTasks);
+    // console.log(this.allTasks);
   }
   loadCategories(): void {
     this.categories$ = this.httpClient.get<Category[]>(this.categUrl).pipe(
@@ -40,10 +44,14 @@ export class DataHandlerService{
        tap(tasks => this.tasksSubject.next(tasks))
      );
   }
+  loadPriorities(): void {
+    this.priorities$ = this.httpClient.get<Priority[]>(this.prioritiesUrl).pipe(
+      map(response => response),
+      tap(priorities => this.prioritiesSubject.next(priorities))
+    );
+  }
   setCategory(clickedCategory: Category): void {
     this.currentCategSource.next(clickedCategory);
-    console.log(clickedCategory.title);
-    console.log(this.allTasks);
   }
   fillTasksByCategory(category: Category): Observable<Task[]> {
     if (category.category_id !== 11) {
@@ -55,5 +63,16 @@ export class DataHandlerService{
         map(response => response)
       );
     }
+  }
+
+  deleteTask(id: number): Observable<Task[]> {
+    return  this.httpClient.delete<Task[]>(this.tasksUrl + '/' + id).pipe(
+      map(response => response)
+    );
+  }
+
+  saveTask(task: Task): void {
+    this.httpClient.post<Task>(this.tasksUrl, task);
+    console.log(task);
   }
 }

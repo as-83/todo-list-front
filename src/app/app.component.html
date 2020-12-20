@@ -1,5 +1,7 @@
 <div class="wrapper ">
 
+  <app-add-task #addTask></app-add-task>
+
   <app-categories (myEvent)="tasks.categoryClicked()"></app-categories>
 
   <div class="main-panel">
@@ -76,7 +78,7 @@
       <div class="container-fluid">
 
 
-        <app-tasks #tasks></app-tasks>
+        <app-tasks #tasks (showAddTask)="addTask.showComponent()"></app-tasks>
 
 
       </div>

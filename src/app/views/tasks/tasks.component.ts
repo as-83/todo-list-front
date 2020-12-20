@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Task} from 'src/app/model/Task';
 import {DataHandlerService} from '../../service/data-handler.service';
 import {Category} from '../../model/Category';
@@ -9,6 +9,7 @@ import {Category} from '../../model/Category';
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
+  @Output() showAddTask = new EventEmitter();
   tasks: Task[];
   viewTasks: Task[];
   currentCategory: Category;
@@ -32,5 +33,15 @@ export class TasksComponent implements OnInit {
   // filtering by category on server side
   categoryClicked(): void {
    this.dataHandler.fillTasksByCategory(this.currentCategory).subscribe(data => this.viewTasks = data);
+  }
+
+  deleteTask(id: number): void {
+    this.dataHandler.deleteTask(id).subscribe(data => {
+      this.tasks = data;
+      this.viewTasks = data;
+    });
+  }
+  showAddTaskComponent(): void{
+    this.showAddTask.emit(null);
   }
 }
