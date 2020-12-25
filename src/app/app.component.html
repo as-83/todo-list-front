@@ -1,8 +1,8 @@
 <div class="wrapper ">
 
-  <app-add-task #addTask></app-add-task>
+  <app-add-task #addTask (closeEvent)="tasks.fillTasksByCategory()"></app-add-task>
 
-  <app-categories (myEvent)="tasks.categoryClicked()"></app-categories>
+  <app-categories (categoryEvent)="tasks.fillTasksByCategory()"></app-categories>
 
   <div class="main-panel">
     <!-- Navbar -->

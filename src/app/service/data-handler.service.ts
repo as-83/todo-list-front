@@ -2,7 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {Category} from '../model/Category';
 import {Task} from '../model/Task';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, tap} from 'rxjs/operators';
 import {Priority} from '../model/Priority';
 
@@ -71,8 +71,11 @@ export class DataHandlerService{
     );
   }
 
-  saveTask(task: Task): void {
-    this.httpClient.post<Task>(this.tasksUrl, task);
-    console.log(task);
+  saveTask(task: Task): Observable<Map<string, string>> {
+    // console.log(task);
+    // const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+    return this.httpClient.post<Map<string, string>>(this.tasksUrl, task ).pipe(
+      map(response => response)
+    );
   }
 }

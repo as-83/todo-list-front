@@ -26,11 +26,11 @@
           <th>Действие</th>
           </thead>
           <tbody>
-          <tr class="pointer"  *ngFor="let task of viewTasks; let i = index ">
+          <tr class="pointer"  *ngFor="let task of viewTasks; let i = index " >
             <td>{{i + 1}}</td>
             <td>{{task.title}}</td>
             <td>{{task.category.title}}</td>
-            <td>{{task.priority.title}}</td>
+            <td style="background-color: {{task.priority.color}}">{{task.priority.title}}</td>
             <td>
               <div class="form-check">
                 <label class="form-check-label">

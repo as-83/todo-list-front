@@ -31,14 +31,17 @@ export class TasksComponent implements OnInit {
   //   }
   // }
   // filtering by category on server side
-  categoryClicked(): void {
+  fillTasksByCategory(): void {
    this.dataHandler.fillTasksByCategory(this.currentCategory).subscribe(data => this.viewTasks = data);
   }
 
   deleteTask(id: number): void {
     this.dataHandler.deleteTask(id).subscribe(data => {
-      this.tasks = data;
-      this.viewTasks = data;
+      if (this.currentCategory.category_id === 11){
+            this.viewTasks = data;
+          }else{
+            this.viewTasks = data.filter(task => task.category.category_id === this.currentCategory.category_id);
+          }
     });
   }
   showAddTaskComponent(): void{

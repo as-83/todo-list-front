@@ -10,6 +10,7 @@ import {Priority} from '../../model/Priority';
   styleUrls: ['./add-task.component.css']
 })
 export class AddTaskComponent implements OnInit {
+  @Output() closeEvent = new EventEmitter();
   task: Task = new Task();
   categories: Category[];
   priorities: Priority[];
@@ -18,6 +19,8 @@ export class AddTaskComponent implements OnInit {
     categoryId: 1
   };
   visible: boolean = false;
+  private message: string;
+  private  map: Map<string, string>;
 
   constructor(private dataService: DataHandlerService) { }
 
@@ -27,7 +30,9 @@ export class AddTaskComponent implements OnInit {
   }
 
   saveTask(): void {
-    this.dataService.saveTask(this.task);
+    this.dataService.saveTask(this.task).subscribe(map => {
+      this.map = map;
+    });
     this.task = new Task();
   }
 
@@ -41,7 +46,9 @@ export class AddTaskComponent implements OnInit {
   }
 
   hideComponent(): void {
+    this.message  = null;
     this.visible = false;
+    this.closeEvent.emit(null);
   }
   showComponent(): void {
     this.visible = true;

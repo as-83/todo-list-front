@@ -8,7 +8,7 @@ import {Category} from '../../model/Category';
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-  @Output() myEvent = new EventEmitter();
+  @Output() categoryEvent = new EventEmitter();
   categories: Category[] = [];
   selectedCategory: Category ;
   constructor(private dataHandler: DataHandlerService) {
@@ -25,6 +25,6 @@ export class CategoriesComponent implements OnInit {
     // this.selectedCategory = category;
     this.dataHandler.setCategory(category);
     // this.dataHandler.fillTasksByCategory(category);
-    this.myEvent.emit(null);
+    this.categoryEvent.emit(null);
   }
 }
