@@ -7,10 +7,19 @@
             <h4 class="card-title">Список дел</h4>
             <p class="card-category">{{currentCategory.title}}</p>
           </div>
-          <div class="col-lg-3"></div>
-          <div class="col-lg-3"></div>
           <div class="col-lg-3">
-            <button class="btn  btn-primary ml-3" (click)="showAddTaskComponent()">Новая задача</button>
+            <label class="form-check-label">Статус задач: </label>
+            <select  class="form-control mb-3"  name="statusFilter"  (change)="changeCompleted($event)">
+              <option  value="1">На выполнении</option>
+              <option  value="2">Завершенные задачи</option>
+              <option  value="3">Все задачи</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+
+          </div>
+          <div class="col-lg-3">
+            <button class="btn  btn-primary ml-3" (click)="showAddTaskComponent(null)">Новая задача</button>
           </div>
         </div>
       </div>
@@ -26,15 +35,15 @@
           <th>Действие</th>
           </thead>
           <tbody>
-          <tr class="pointer"  *ngFor="let task of viewTasks; let i = index " >
+          <tr id="tr" *ngFor="let task of viewTasks; let i = index ">
             <td>{{i + 1}}</td>
-            <td>{{task.title}}</td>
+            <td class="pointer" (click)="showAddTaskComponent(task)">{{task.title}}</td>
             <td>{{task.category.title}}</td>
             <td style="background-color: {{task.priority.color}}">{{task.priority.title}}</td>
             <td>
               <div class="form-check">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="1"
+                  <input class="form-check-input" type="checkbox" value="1" (change)="changeStatus(task)"
                          [checked]="task.completed"
                   >
                   <span class="form-check-sign">
@@ -43,9 +52,15 @@
                 </label>
               </div>
             </td>
-            <td>{{task.localDate.split('-')[2] }}.{{task.localDate.split('-')[1] }}.{{task.localDate.split('-')[0] }}</td>
-            <td><a class="btn btn-info" >Изменить</a>
-              <button class="btn  btn-primary ml-3" (click)="deleteTask(task.id)">Удалить</button></td>
+            <td>
+              {{task.localDate.split('-')[2] }}.{{task.localDate.split('-')[1] }}.{{task.localDate.split('-')[0] }}</td>
+            <td>
+<!--              <a class="btn btn-info" (click)="showAddTaskComponent(task)">Изменить</a>-->
+<!--              <button class="btn  btn-primary ml-3" (click)="deleteTask(task.id)">Удалить</button>-->
+              <div class="show-on-hover">
+                <i class="fa fa-times fa-2x pointer show-on-hover" (click)="deleteTask(task.id)"></i>
+              </div>
+            </td>
           </tr>
 
           </tbody>

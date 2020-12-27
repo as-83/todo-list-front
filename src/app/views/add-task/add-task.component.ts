@@ -27,13 +27,13 @@ export class AddTaskComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.categories$.subscribe(data => this.categories = data);
     this.dataService.priorities$.subscribe(data => this.priorities = data);
+    this.task.completed = false;
   }
 
   saveTask(): void {
     this.dataService.saveTask(this.task).subscribe(map => {
       this.map = map;
     });
-    this.task = new Task();
   }
 
   deleteTask(id: number): void {
@@ -41,24 +41,41 @@ export class AddTaskComponent implements OnInit {
     this.task = new Task();
   }
 
-  setCategory(): void {
-    this.task.category = this.categories[this.filters.categoryId - 1];
-  }
-
   hideComponent(): void {
     this.message  = null;
     this.visible = false;
+    this.map = null;
     this.closeEvent.emit(null);
   }
-  showComponent(): void {
+
+  showComponent($event): void {
+    if ($event){
+      this.task = $event;
+    }else{
+      this.task = new Task();
+      this.task.completed = false;
+      this.task.priority = this.priorities[0];
+      this.task.category = this.categories[0];
+      console.log('event===null' + ' -------- ' + this.priorities[0] + this.categories[0]);
+    }
     this.visible = true;
   }
 
-  setPriority(): void {
-    this.task.priority = this.priorities[this.filters.priorityId - 1];
+  setCategory(event: any): void {
+    this.task.category = this.categories[ event.target.value];
+    console.log(this.task + '------' + event.target.value);
+  }
+
+  setPriority($event: any): void {
+    this.task.priority = this.priorities[ $event.target.value];
+    console.log(this.task + '------' + $event.target.value);
   }
 
   setStatus(): void {
     this.task.completed = !this.task.completed;
+  }
+
+  filterCategories(): Category[] {
+    return this.categories.filter(category => category.category_id !== 11);
   }
 }

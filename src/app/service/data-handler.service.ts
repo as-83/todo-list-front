@@ -30,7 +30,6 @@ export class DataHandlerService{
     this.loadTasks();
     this.loadPriorities();
     this.tasks$.subscribe(data => this.allTasks = data );
-    // console.log(this.allTasks);
   }
   loadCategories(): void {
     this.categories$ = this.httpClient.get<Category[]>(this.categUrl).pipe(

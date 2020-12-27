@@ -26,15 +26,15 @@
 
           <label class="form-check-label">Приоритет: </label>
 
-          <select  class="form-control mb-3"  name="priorityId" [(ngModel)]="filters.priorityId" (change)="setPriority()">
-            <option *ngFor="let priority of priorities" value="{{priority.priority_id}}" >{{priority.title}}</option>
+          <select  class="form-control mb-3"  name="priorityId"  (change)="setPriority($event)">
+            <option *ngFor="let priority of priorities; let j = index " value="{{j}}" [selected]="task.priority.priority_id === priority.priority_id">{{priority.title}}</option>
           </select>
           <hr>
 
           <label class="form-check-label">Категория: </label>
 
-          <select  class="form-control mb-3"  name="categoryId" [(ngModel)]="filters.categoryId" (change)="setCategory()" >
-            <option *ngFor="let category of categories; let i = index " value="{{category.category_id}}">{{category.title}}</option>
+          <select  class="form-control mb-3"  name="categoryId" (change)="setCategory($event)">
+            <option *ngFor="let category of filterCategories(); let i = index" value="{{i}}"   [selected]="task.category.category_id === category.category_id">{{category.title}}</option>
           </select>
           <hr>
 

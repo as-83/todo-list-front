@@ -1,8 +1,8 @@
 <div class="wrapper ">
 
-  <app-add-task #addTask (closeEvent)="tasks.fillTasksByCategory()"></app-add-task>
+  <app-add-task #addTask (closeEvent)="tasks.loadTasks()"></app-add-task>
 
-  <app-categories (categoryEvent)="tasks.fillTasksByCategory()"></app-categories>
+  <app-categories (categoryEvent)="tasks.fillTasks()"></app-categories>
 
   <div class="main-panel">
     <!-- Navbar -->
@@ -78,7 +78,7 @@
       <div class="container-fluid">
 
 
-        <app-tasks #tasks (showAddTask)="addTask.showComponent()"></app-tasks>
+        <app-tasks #tasks (showAddTask)="addTask.showComponent($event)"></app-tasks>
 
 
       </div>
