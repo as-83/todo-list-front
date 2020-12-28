@@ -14,18 +14,40 @@ export class TasksComponent implements OnInit {
   viewTasks: Task[];
   currentCategory: Category;
   private completedFilter = '1';
+  filters = {
+    keyword: '',
+    sortBy: `6`
+  };
   constructor(private dataHandler: DataHandlerService) {}
 
   ngOnInit(): void {
      this.dataHandler.tasks$.subscribe(data => {
        this.tasks = data;
-       this.viewTasks = data.filter(task => task.completed === false);
+       this.fillTasks();
      });
      this.dataHandler.clickedCategory$.subscribe(data => this.currentCategory = data);
   }
   // filtering by category on client side
   fillTasks(): void {
-    this.viewTasks = this.filterByStatus( this.filterByCategory(this.tasks));
+    this.viewTasks = this.filterByStatus( this.filterByCategory(this.tasks)).filter((e) => {
+      return e.title.toLowerCase().includes(this.filters.keyword.toLowerCase());
+    }).sort(
+      (a, b) => {
+        if (this.filters.sortBy === `1`) {
+          return a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1;
+        }else if (this.filters.sortBy === `2`) {
+          return a.title.toLowerCase() > b.title.toLowerCase() ? -1 : 1;
+        }else if (this.filters.sortBy === `3`) {
+          return a.priority.priority_id <= b.priority.priority_id ? -1 : 1;
+        }else if (this.filters.sortBy === `4`) {
+          return a.priority.priority_id > b.priority.priority_id ? -1 : 1;
+        }else if (this.filters.sortBy === `5`) {
+          return a.localDate > b.localDate ? -1 : 1;
+        }else if (this.filters.sortBy === `6`) {
+          return a.localDate > b.localDate ? 1 : -1;
+        }
+      }
+    );
   }
 
   private filterByCategory(tasks: Task[]): Task[] {
@@ -33,6 +55,22 @@ export class TasksComponent implements OnInit {
       return tasks;
     } else {
       return tasks.filter(task => task.category.category_id === this.currentCategory.category_id);
+    }
+  }
+  private filterByStatus(tasks: Task[]): Task[]{
+    switch (this.completedFilter) {
+      case '1': {
+        return tasks.filter(task => task.completed === false );
+        break;
+      }
+      case '2': {
+        return tasks.filter(task => task.completed === true );
+        break;
+      }
+      case '3': {
+        return tasks;
+        break;
+      }
     }
   }
 
@@ -54,23 +92,6 @@ export class TasksComponent implements OnInit {
   changeStatus(task: Task): void {
     task.completed = !task.completed;
     this.dataHandler.saveTask(task).subscribe(data => this.fillTasks());
-  }
-
-  private filterByStatus(tasks: Task[]): Task[]{
-    switch (this.completedFilter) {
-      case '1': {
-        return tasks.filter(task => task.completed === false );
-        break;
-      }
-      case '2': {
-        return tasks.filter(task => task.completed === true );
-        break;
-      }
-      case '3': {
-        return tasks;
-        break;
-      }
-     }
   }
 
   changeCompleted($event: any): void {
