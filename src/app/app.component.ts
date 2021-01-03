@@ -10,7 +10,6 @@ import {DataHandlerService} from './service/data-handler.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent{
-  title = 'TODO-List';
   constructor() { }
 
 }
