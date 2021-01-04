@@ -32,19 +32,19 @@ export class DataHandlerService{
     this.tasks$.subscribe(data => this.allTasks = data );
   }
   loadCategories(): void {
-    this.categories$ = this.httpClient.get<Category[]>(this.categUrl, {headers: this.getHttpHeader()}).pipe(
+    this.categories$ = this.httpClient.get<Category[]>(this.categUrl ).pipe(
       map(response => response),
        tap(categories => this.categoriesSubject.next(categories))
     );
   }
   loadTasks(): void {
-    this.tasks$ = this.httpClient.get<Task[]>(this.tasksUrl, {headers: this.getHttpHeader()}).pipe(
+    this.tasks$ = this.httpClient.get<Task[]>(this.tasksUrl ).pipe(
        map(response => response),
        tap(tasks => this.tasksSubject.next(tasks))
      );
   }
   loadPriorities(): void {
-    this.priorities$ = this.httpClient.get<Priority[]>(this.prioritiesUrl, {headers: this.getHttpHeader()}).pipe(
+    this.priorities$ = this.httpClient.get<Priority[]>(this.prioritiesUrl ).pipe(
       map(response => response),
       tap(priorities => this.prioritiesSubject.next(priorities))
     );
@@ -65,7 +65,7 @@ export class DataHandlerService{
   }
 
   deleteTask(id: number): Observable<Task[]> {
-    return  this.httpClient.delete<Task[]>(this.tasksUrl + '/' + id, {headers: this.getHttpHeader()}).pipe(
+    return  this.httpClient.delete<Task[]>(this.tasksUrl + '/' + id).pipe(
       map(response => response)
     );
   }
@@ -73,13 +73,8 @@ export class DataHandlerService{
   saveTask(task: Task): Observable<Map<string, string>> {
     // console.log(task);
     // const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-    return this.httpClient.post<Map<string, string>>(this.tasksUrl, task, {headers: this.getHttpHeader()} ).pipe(
+    return this.httpClient.post<Map<string, string>>(this.tasksUrl, task).pipe(
       map(response => response)
     );
-  }
-  private getHttpHeader(): HttpHeaders{
-    const username = 'user2';
-    const password = '12345';
-    return new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
   }
 }

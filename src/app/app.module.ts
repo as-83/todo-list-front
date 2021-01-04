@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import {FormsModule} from '@angular/forms';
 
@@ -13,6 +13,7 @@ import { ContentComponent } from './content/content.component';
 import { LoginComponent } from './views/login/login.component';
 import { LogoutComponent } from './views/logout/logout.component';
 import { AuthGuardService } from './service/auth-guard.service';
+import { BasicAuthHttpInterceptorService } from './service/basic-auth-http-interceptor.service';
 
 const routes: Routes = [
   { path: '', component: ContentComponent, canActivate: [AuthGuardService]},
@@ -37,7 +38,10 @@ const routes: Routes = [
     FormsModule
   ],
   exports: [RouterModule],
-  providers: [DataHandlerService],
+  providers: [DataHandlerService,
+    {
+      provide: HTTP_INTERCEPTORS, useClass: BasicAuthHttpInterceptorService, multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

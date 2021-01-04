@@ -19,6 +19,8 @@ export class AuthenticationService {
       map(
         userData => {
           sessionStorage.setItem('username', username );
+          const authString = 'Basic ' + btoa(username + ':' + password);
+          sessionStorage.setItem('basic-auth', authString);
           return userData;
         }
       )
